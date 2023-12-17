@@ -4,6 +4,10 @@ import { InterfacePostSubject, InterfaceSubject } from './subject';
 
 @Injectable()
 export class SubjectService {
+  findAll(): InterfaceSubject[] {
+    return SUBJECTS;
+  }
+
   findOneById(id: number): InterfaceSubject {
     const subject = SUBJECTS.find((s) => s.id === id);
     return subject;
@@ -12,6 +16,6 @@ export class SubjectService {
   createNewSubject({ name }: InterfacePostSubject): InterfaceSubject[] {
     const sortedByIdSubject = SUBJECTS.sort((a, b) => a.id - b.id);
     const newId = sortedByIdSubject[sortedByIdSubject.length - 1].id + 1;
-    return [...SUBJECTS, { id: newId, name }];
+    return [...SUBJECTS, { id: newId, name, levelId: 1 }];
   }
 }
