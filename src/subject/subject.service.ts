@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { SUBJECTS } from './bdd';
+import { BddService } from 'src/bdd/bdd.service';
 import { InterfacePostSubject, InterfaceSubject } from './subject';
 
 @Injectable()
 export class SubjectService {
+  constructor(private bdd: BddService) {}
   findAll(): InterfaceSubject[] {
-    return SUBJECTS;
+    return this.bdd.get<InterfaceSubject>('subjects');
   }
 
   findOneById(id: number): InterfaceSubject {
-    const subject = SUBJECTS.find((s) => s.id === id);
-    return subject;
+    return this.bdd.getById<InterfaceSubject>('subjects', id);
   }
 
   createNewSubject({ name }: InterfacePostSubject): InterfaceSubject[] {
-    const sortedByIdSubject = SUBJECTS.sort((a, b) => a.id - b.id);
+    const sortedByIdSubject = this.findAll().sort((a, b) => a.id - b.id);
     const newId = sortedByIdSubject[sortedByIdSubject.length - 1].id + 1;
-    return [...SUBJECTS, { id: newId, name, levelId: 1 }];
+    return [...this.findAll(), { id: newId, name, levelId: 1 }];
   }
 }
