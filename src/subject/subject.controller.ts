@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { LevelSubjectInterface } from 'src/level/level';
 import { SUBJECTS } from './bdd';
 import { InterfacePostSubject, InterfaceSubject } from './subject';
 import { SubjectService } from './subject.service';
-import { LevelSubjectInterface } from 'src/level/level';
 
 @Controller('subject')
 export class SubjectController {
@@ -10,6 +10,11 @@ export class SubjectController {
   @Get()
   findAll(): InterfaceSubject[] {
     return SUBJECTS;
+  }
+
+  @Get('favorite')
+  findFavorite(): string {
+    return this.subjectService.findFavorite();
   }
 
   @Get(':id')

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BddService } from 'src/bdd/bdd.service';
 import { TOKEN_LEVELS } from 'src/bdd/constante';
+import { ConfigService } from 'src/config/config.service';
 import { LevelInterface, LevelSubjectInterface } from 'src/level/level';
 import { InterfacePostSubject, InterfaceSubject } from './subject';
 
@@ -9,6 +10,7 @@ export class SubjectService {
   constructor(
     private bdd: BddService,
     @Inject(TOKEN_LEVELS) private bddLevels: LevelInterface[],
+    private configService: ConfigService,
   ) {}
   findAll(): InterfaceSubject[] {
     return this.bdd.get<InterfaceSubject>('subjects');
@@ -32,5 +34,9 @@ export class SubjectService {
       level,
       subject,
     }));
+  }
+
+  findFavorite(): string {
+    return this.configService.get('FAVORITE_SUBJECT');
   }
 }
