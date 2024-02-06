@@ -8,7 +8,7 @@ export class LevelController {
   @Get('subject/:name')
   findLevelAndSubjectByName(
     @Param('name') name: string,
-  ): LevelSubjectInterface[] {
+  ): Promise<LevelSubjectInterface> {
     return this.levelService.findLevelAndSubjectByName(name);
   }
 }
