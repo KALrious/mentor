@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from 'src/config/config.service';
+import { Cache } from 'cache-manager';
 import { LevelSubjectInterface } from 'src/level/level';
 import { Repository } from 'typeorm';
 import { SubjectEntity } from './entities/subject.entity';
@@ -11,11 +12,18 @@ export class SubjectService {
   constructor(
     @InjectRepository(SubjectEntity)
     private subjectRepository: Repository<SubjectEntity>,
-    private configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  findAll(): Promise<SubjectEntity[]> {
-    return this.subjectRepository.find();
+  async findAll(): Promise<SubjectEntity[]> {
+    const subjectCache =
+      await this.cacheManager.get<SubjectEntity[]>('findAll');
+    if (!subjectCache) {
+      const subjects = await this.subjectRepository.find();
+      await this.cacheManager.set('findAll', subjects, 0);
+      return subjects;
+    }
+    return subjectCache;
   }
 
   findOneById(id: number): Promise<SubjectEntity> {
@@ -46,6 +54,6 @@ export class SubjectService {
   }
 
   findFavorite(): string {
-    return this.configService.get('FAVORITE_SUBJECT');
+    return 'Maths';
   }
 }

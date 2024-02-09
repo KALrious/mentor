@@ -1,3 +1,4 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SubjectEntity } from './entities/subject.entity';
@@ -8,6 +9,6 @@ import { SubjectService } from './subject.service';
   exports: [SubjectService],
   controllers: [SubjectController],
   providers: [SubjectService],
-  imports: [TypeOrmModule.forFeature([SubjectEntity])],
+  imports: [TypeOrmModule.forFeature([SubjectEntity]), CacheModule.register()],
 })
 export class SubjectModule {}
