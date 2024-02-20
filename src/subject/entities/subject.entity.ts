@@ -1,11 +1,11 @@
-import { LevelEntity } from 'src/level/entities/level.entity';
 import {
   Column,
   Entity,
   JoinColumn,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AnnounceEntity } from '../../announce/entities/announce.entity';
 
 @Entity()
 export class SubjectEntity {
@@ -15,7 +15,7 @@ export class SubjectEntity {
   @Column()
   name: string;
 
-  @OneToOne(() => LevelEntity, (level) => level.subject)
+  @OneToMany(() => AnnounceEntity, (announce) => announce.subject)
   @JoinColumn()
-  level?: LevelEntity;
+  announces: AnnounceEntity[];
 }
