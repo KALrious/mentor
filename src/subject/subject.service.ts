@@ -29,6 +29,12 @@ export class SubjectService {
     return this.subjectRepository.findOneBy({ id });
   }
 
+  findOneByName(name: string): Promise<SubjectEntity> {
+    return this.subjectRepository.findOneBy({
+      name,
+    });
+  }
+
   async createNewSubject({
     name,
   }: InterfacePostSubject): Promise<SubjectEntity> {
