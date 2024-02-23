@@ -45,16 +45,9 @@ export class SubjectService {
   async createNewSubject({
     name,
   }: InterfacePostSubject): Promise<SubjectEntity> {
-    if (!name) {
-      throw new HttpException(
-        'bad request name not found',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const newSubject = await this.subjectRepository.save({
+    return this.subjectRepository.save({
       name,
     });
-    return newSubject;
   }
 
   findFavorite(): string {
