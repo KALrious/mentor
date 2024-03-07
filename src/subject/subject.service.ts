@@ -1,5 +1,6 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cache } from 'cache-manager';
 import { Repository } from 'typeorm';
@@ -12,6 +13,7 @@ export class SubjectService {
     @InjectRepository(SubjectEntity)
     private subjectRepository: Repository<SubjectEntity>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private configService: ConfigService,
   ) {}
 
   async findAll(): Promise<SubjectEntity[]> {
@@ -51,6 +53,6 @@ export class SubjectService {
   }
 
   findFavorite(): string {
-    return 'Maths';
+    return this.configService.get<string>('FAVORITE_SUBJECT');
   }
 }

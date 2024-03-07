@@ -1,5 +1,6 @@
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnnounceModule } from './announce/announce.module';
 import { AppController } from './app.controller';
@@ -13,6 +14,10 @@ import { SubjectModule } from './subject/subject.module';
     SubjectModule,
     LevelModule,
     TypeOrmModule.forRoot(typeOrmModuleOptions),
+    ConfigModule.forRoot({
+      envFilePath: './config/.env',
+      isGlobal: true,
+    }),
     CacheModule.register(),
     AnnounceModule,
   ],
