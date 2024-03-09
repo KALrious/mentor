@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNumber, Max, Min, ValidateNested } from 'class-validator';
-import { AddLevelDto } from 'src/level/interface/add-level.dto';
-import { AddSubjectDto } from 'src/subject/interface/add-subject.dto';
+import { AddLevelDto } from '../../level/interface/add-level.dto';
+import { AddSubjectDto } from '../../subject/interface/add-subject.dto';
 
 export class CreateAnnounceDto {
   @ValidateNested()
