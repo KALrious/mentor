@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { LevelModule } from './level/level.module';
 import { typeOrmModuleOptions } from './ormconfig';
 import { SubjectModule } from './subject/subject.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SubjectModule } from './subject/subject.module';
     }),
     CacheModule.register(),
     AnnounceModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
