@@ -12,13 +12,13 @@ const options: DataSourceOptions = {
   username: 'root',
   password: 'root',
   database: 'mentor',
-  migrations: ['./src/migrations/*{.ts,.js}'],
+  migrations: ['./dist/migration/*.js'],
   entities: [SubjectEntity, LevelEntity, AnnounceEntity, UserEntity],
 };
 
 export const typeOrmModuleOptions: TypeOrmModuleOptions = {
   ...options,
-  synchronize: true,
+  synchronize: false,
 };
 
 export const connectionSource = new DataSource(options);
