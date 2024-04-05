@@ -23,6 +23,7 @@ export class UserService {
     lastName,
     email,
     password,
+    role,
   }: CreateUserDto): Promise<UserEntity> {
     const passwordHash = await hash(password, 10);
 
@@ -31,6 +32,7 @@ export class UserService {
       lastName,
       email,
       passwordHash,
+      role,
     });
   }
 }
