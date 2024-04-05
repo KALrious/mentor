@@ -9,6 +9,7 @@ import { LevelModule } from './level/level.module';
 import { typeOrmModuleOptions } from './ormconfig';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserModule } from './user/user.module';
     CacheModule.register(),
     AnnounceModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
