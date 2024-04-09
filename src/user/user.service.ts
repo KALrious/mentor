@@ -18,6 +18,12 @@ export class UserService {
     });
   }
 
+  async findOneById(id: number): Promise<UserEntity> {
+    return this.userRepository.findOneBy({
+      id,
+    });
+  }
+
   async createUser({
     firstName,
     lastName,
