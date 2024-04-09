@@ -1,4 +1,3 @@
-import { CourseEntity } from 'src/course/entities/course.entity';
 import {
   Column,
   Entity,
@@ -7,9 +6,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CourseEntity } from '../../course/entities/course.entity';
 import { LevelEntity } from '../../level/entities/level.entity';
 import { SubjectEntity } from '../../subject/entities/subject.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity()
 export class AnnounceEntity {

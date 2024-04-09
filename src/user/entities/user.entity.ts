@@ -1,5 +1,3 @@
-import { AnnounceEntity } from 'src/announce/entities/announce.entity';
-import { CourseEntity } from 'src/course/entities/course.entity';
 import {
   Column,
   Entity,
@@ -7,6 +5,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AnnounceEntity } from '../../announce/entities/announce.entity';
+import { CourseEntity } from '../../course/entities/course.entity';
 import { Role } from '../interface/role';
 
 @Entity()

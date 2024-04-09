@@ -2,6 +2,8 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { LevelService } from '../level/level.service';
 import { SubjectService } from '../subject/subject.service';
+import { Role } from '../user/interface/role';
+import { UserService } from '../user/user.service';
 import { AnnounceService } from './announce.service';
 import { AnnounceEntity } from './entities/announce.entity';
 
@@ -12,6 +14,9 @@ describe('AnnounceService', () => {
   };
   let levelService = {
     findOneByName: jest.fn(),
+  };
+  let userService = {
+    findOneById: jest.fn(),
   };
   let repository = {
     save: jest.fn(),
@@ -34,6 +39,9 @@ describe('AnnounceService', () => {
         if (token === LevelService) {
           return levelService;
         }
+        if (token === UserService) {
+          return userService;
+        }
       })
       .compile();
     service = module.get<AnnounceService>(AnnounceService);
@@ -46,6 +54,8 @@ describe('AnnounceService', () => {
 
     const spyRepository = jest.spyOn(repository, 'save');
 
+    const spyUser = jest.spyOn(userService, 'findOneById');
+
     const announceToCreate = {
       price: 100,
       level: {
@@ -54,6 +64,7 @@ describe('AnnounceService', () => {
       subject: {
         name: 'test-subject',
       },
+      userId: 2,
     };
 
     it('it should create an announce', async () => {
@@ -67,6 +78,13 @@ describe('AnnounceService', () => {
         name: 'test-subject',
       });
 
+      spyUser.mockResolvedValue({
+        id: 2,
+        firstName: 'test',
+        lastName: 'test',
+        role: Role.Teacher,
+      });
+
       spyRepository.mockResolvedValue({
         id: 1,
         price: 100,
@@ -77,6 +95,12 @@ describe('AnnounceService', () => {
         subject: {
           id: 1,
           name: 'test-subject',
+        },
+        teacher: {
+          id: 2,
+          firstName: 'test',
+          lastName: 'test',
+          role: Role.Teacher,
         },
       });
 
@@ -93,6 +117,12 @@ describe('AnnounceService', () => {
           id: 1,
           name: 'test-subject',
         },
+        teacher: {
+          id: 2,
+          firstName: 'test',
+          lastName: 'test',
+          role: Role.Teacher,
+        },
       });
       expect(spyLevel).toHaveBeenCalledWith('test-level');
       expect(spyLevel).toHaveBeenCalledTimes(1);
@@ -107,6 +137,12 @@ describe('AnnounceService', () => {
         subject: {
           id: 1,
           name: 'test-subject',
+        },
+        teacher: {
+          id: 2,
+          firstName: 'test',
+          lastName: 'test',
+          role: Role.Teacher,
         },
       });
       expect(spyRepository).toHaveBeenCalledTimes(1);
