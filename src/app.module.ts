@@ -5,14 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnnounceModule } from './announce/announce.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LevelModule } from './level/level.module';
-import { typeOrmModuleOptions } from './ormconfig';
-import { SubjectModule } from './subject/subject.module';
-import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './course/course.module';
-import { StripeModule } from './stripe/stripe.module';
+import { LevelModule } from './level/level.module';
+import { typeOrmModuleOptions } from './ormconfig';
 import { PaymentModule } from './payment/payment.module';
+import { StripeModule } from './stripe/stripe.module';
+import { SubjectModule } from './subject/subject.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,7 +20,6 @@ import { PaymentModule } from './payment/payment.module';
     LevelModule,
     TypeOrmModule.forRoot(typeOrmModuleOptions),
     ConfigModule.forRoot({
-      envFilePath: './config/.env',
       isGlobal: true,
     }),
     CacheModule.register(),
