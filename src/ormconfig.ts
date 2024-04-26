@@ -6,13 +6,16 @@ import { LevelEntity } from './level/entities/level.entity';
 import { SubjectEntity } from './subject/entities/subject.entity';
 import { UserEntity } from './user/entities/user.entity';
 
+const { env } = process;
+
 const options: DataSourceOptions = {
-  type: 'mariadb',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'root',
-  database: 'mentor',
+  //@ts-ignore
+  type: env.DB_TYPE,
+  host: env.DB_HOST,
+  port: parseInt(env.DB_PORT),
+  username: env.DB_USERNAME,
+  password: env.DB_PASS,
+  database: env.DB_NAME,
   migrationsRun: true,
   migrations: ['./dist/migration/*.js'],
   entities: [
