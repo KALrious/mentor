@@ -5,6 +5,12 @@ export class FirstMigration1707216977279 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
+      `CREATE TABLE \`level_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE \`subject_entity\` (\`id\` int NOT NULL AUTO_INCREMENT, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+    );
+    await queryRunner.query(
       `ALTER TABLE \`subject_entity\` ADD \`levelId\` int NULL`,
     );
     await queryRunner.query(
@@ -31,5 +37,7 @@ export class FirstMigration1707216977279 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE \`subject_entity\` DROP COLUMN \`levelId\``,
     );
+    await queryRunner.query(`DROP TABLE \`announce_entity\``);
+    await queryRunner.query(`DROP TABLE \`subject_entity\``);
   }
 }
