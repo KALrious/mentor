@@ -5,9 +5,9 @@ import { StripeService } from 'src/stripe/stripe.service';
 export class PaymentService {
   constructor(private readonly stripeService: StripeService) {}
 
-  createPayment(paymentMethod: string) {
-    this.stripeService.createPaymentIntent({
-      amount: 1500,
+  createPayment(paymentMethod: string, amount: number) {
+    return this.stripeService.createPaymentIntent({
+      amount,
       currency: 'eur',
       payment_method: paymentMethod,
       confirm: true,
@@ -20,7 +20,7 @@ export class PaymentService {
     });
   }
 
-  capturePayment(paymentIntentId: string) {
+  capturePayment(paymentIntentId: string, amount: number) {
     this.stripeService.capturePayment(paymentIntentId, {
       amount_to_capture: 1500,
     });
