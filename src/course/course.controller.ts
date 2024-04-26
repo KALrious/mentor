@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/guards/role.decorator';
 import { Role } from 'src/user/interface/role';
@@ -17,6 +27,13 @@ export class CourseController {
     @Req() { user },
   ): Promise<CourseEntity> {
     return this.courseService.createCourse({ ...body, userId: user.sub });
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard)
+  @Roles(Role.Student)
+  updateCourse(@Param('id', ParseIntPipe) id: number): Promise<CourseEntity> {
+    return this.courseService.updateCourse({ courseId: id });
   }
 
   @Get()

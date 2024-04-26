@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateCourseDto {
   @IsNumber()
@@ -12,4 +18,6 @@ export class CreateCourseDto {
   @IsNumber()
   @IsPositive()
   hours: number;
+  @IsString()
+  paymentMethod: string;
 }
