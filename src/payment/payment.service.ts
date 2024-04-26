@@ -22,7 +22,7 @@ export class PaymentService {
 
   capturePayment(paymentIntentId: string, amount: number) {
     this.stripeService.capturePayment(paymentIntentId, {
-      amount_to_capture: 1500,
+      amount_to_capture: amount,
     });
   }
 }
