@@ -6,20 +6,14 @@ import Stripe from 'stripe';
 export class StripeService {
   private readonly stripe: Stripe;
   constructor(private configService: ConfigService) {
-    const stripeApiKey = this.configService.get('STRIPE_SECRET_KEY');
-    this.stripe = new Stripe(stripeApiKey);
+    const stripeSecretKey = this.configService.get('STRIPE_SECRET_KEY');
+    this.stripe = new Stripe(stripeSecretKey);
   }
 
-  //#region PaymentIntent
-  public async createPaymentIntent(params: Stripe.PaymentIntentCreateParams) {
-    return this.stripe.paymentIntents.create(params);
-  }
-
-  public async capturePayment(
-    id: string,
-    params?: Stripe.PaymentIntentCaptureParams,
+  public paymentIntentCreate(
+    params: Stripe.PaymentIntentCreateParams,
+    options?: Stripe.RequestOptions,
   ) {
-    return this.stripe.paymentIntents.capture(id, params);
+    return this.stripe.paymentIntents.create(params, options);
   }
-  //#endregion
 }
