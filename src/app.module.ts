@@ -5,14 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnnounceModule } from './announce/announce.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { CourseModule } from './course/course.module';
 import { LevelModule } from './level/level.module';
 import { typeOrmModuleOptions } from './ormconfig';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { CourseModule } from './course/course.module';
 import { StripeModule } from './stripe/stripe.module';
-import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -29,7 +28,6 @@ import { PaymentModule } from './payment/payment.module';
     AuthModule,
     CourseModule,
     StripeModule,
-    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
