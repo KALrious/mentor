@@ -14,38 +14,6 @@ export class CourseService {
     @InjectRepository(CourseEntity)
     private courseRepository: Repository<CourseEntity>,
   ) {}
-  async createCourse({
-    announceId,
-    userId,
-    date,
-    hours,
-  }: {
-    announceId: number;
-    userId: number;
-    date: Date;
-    hours: number;
-  }): Promise<CourseEntity> {
-    const user = await this.userService.findOneById(userId);
-
-    if (!user) {
-      throw new HttpException(`user not found`, HttpStatus.NOT_FOUND);
-    }
-
-    const announce = await this.announceService.findOneById(announceId);
-
-    if (!announce) {
-      throw new HttpException(`announce not found`, HttpStatus.NOT_FOUND);
-    }
-
-    const course = this.courseRepository.save({
-      announce,
-      student: user,
-      date,
-      hours,
-    });
-
-    return course;
-  }
   async findCourses(userId: number): Promise<CourseEntity[]> {
     const user = await this.userService.findOneById(userId);
 

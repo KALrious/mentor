@@ -9,9 +9,10 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './course/course.module';
 import { LevelModule } from './level/level.module';
 import { typeOrmModuleOptions } from './ormconfig';
+import { PaymentModule } from './payment/payment.module';
+import { StripeModule } from './stripe/stripe.module';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
-import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { StripeModule } from './stripe/stripe.module';
     AuthModule,
     CourseModule,
     StripeModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
