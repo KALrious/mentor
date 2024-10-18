@@ -13,7 +13,7 @@ export class AuthService {
   async singIn({ email, password }: AuthSignInDto) {
     const user = await this.userService.findOne(email);
     const isAuthorized = await compare(password, user.passwordHash);
-    if (isAuthorized) {
+    if (!isAuthorized) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, username: user.email, role: user.role };

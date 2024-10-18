@@ -28,4 +28,28 @@ export class CourseService {
       student: user,
     });
   }
+
+  async createCourses(
+    announceId: number,
+    hours: number,
+    userId: number,
+    date: Date,
+  ) {
+    const announce = await this.announceService.findOneById(announceId);
+    if (!announce) {
+      throw new HttpException(`announce not found`, HttpStatus.NOT_FOUND);
+    }
+    const user = await this.userService.findOneById(userId);
+    if (!user && user.role !== Role.Student) {
+      throw new HttpException(`user not found`, HttpStatus.NOT_FOUND);
+    }
+    console.log(announce, user, date, hours);
+    const course = this.courseRepository.save({
+      announce,
+      student: user,
+      date,
+      hours,
+    });
+    return course;
+  }
 }

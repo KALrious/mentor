@@ -23,11 +23,18 @@ export class PaymentService {
 
   public async createPayment(
     createPaymentParameters: CreatePaymentType,
+    userId: string,
   ): Promise<{ client_secret: string }> {
     const amount = await this.calculateAmount(createPaymentParameters);
     const paymentIntent = await this.stripeService.paymentIntentCreate({
       amount,
       currency: 'eur',
+      metadata: {
+        announceId: createPaymentParameters.announceId,
+        hours: createPaymentParameters.hours,
+        date: createPaymentParameters.date.toString(),
+        userId,
+      },
     });
     return { client_secret: paymentIntent.client_secret };
   }
