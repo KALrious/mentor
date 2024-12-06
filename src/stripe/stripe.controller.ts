@@ -3,8 +3,7 @@ import { StripeService } from './stripe.service';
 
 @Controller('stripe')
 export class StripeController {
-  constructor(private stripeService: StripeService) {}
-
+  constructor(private readonly stripeService: StripeService) {}
   @Post('webhook')
   async handleIncomingEvents(
     @Headers('stripe-signature') signature: string,

@@ -1,46 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { CourseService } from 'src/course/course.service';
 import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
   private readonly stripe: Stripe;
-  private readonly webhookKey: string;
-  constructor(private configService: ConfigService) {
-    const stripeApiKey = this.configService.get('STRIPE_SECRET_KEY');
-    const stripeWebhookKey = this.configService.get(
-      'STRIPE_WEBHOOK_SECRET_KEY',
-    );
-    this.stripe = new Stripe(stripeApiKey);
-    this.webhookKey = stripeWebhookKey;
-  }
-
-  //#region PaymentIntent
-  public async createPaymentIntent(params: Stripe.PaymentIntentCreateParams) {
-    return this.stripe.paymentIntents.create(params);
-  }
-
-  public async capturePayment(
-    id: string,
-    params?: Stripe.PaymentIntentCaptureParams,
+  private readonly webhook: string;
+  constructor(
+    private configService: ConfigService,
+    private readonly courseService: CourseService,
   ) {
-    return this.stripe.paymentIntents.capture(id, params);
+    const stripeSecretKey = this.configService.get('STRIPE_SECRET_KEY');
+    this.stripe = new Stripe(stripeSecretKey);
+    this.webhook = this.configService.get('STRIPE_WEBHOOK_KEY');
   }
-  //#endregion
 
-  //#region webhook
+  public paymentIntentCreate(
+    params: Stripe.PaymentIntentCreateParams,
+    options?: Stripe.RequestOptions,
+  ) {
+    return this.stripe.paymentIntents.create(params, options);
+  }
+
   public async handleIncomingEvents(signature: string, rawBody: Buffer) {
     const event = await this.stripe.webhooks.constructEvent(
       rawBody,
       signature,
-      this.webhookKey,
+      this.webhook,
     );
     switch (event.type) {
       case 'payment_intent.created':
         console.log('payment intent created');
         break;
       case 'payment_intent.succeeded':
-        console.log('payment intent succeeded');
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const metadata = paymentIntent.metadata;
+        if (!metadata.announceId && !metadata.hours) {
+          throw new HttpException(
+            'can not treat payment intent',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+        const { announceId, hours, userId, date } = metadata;
+        this.courseService.createCourses(
+          +announceId,
+          +hours,
+          +userId,
+          new Date(date),
+        );
         break;
       case 'payment_intent.payment_failed':
         console.log('payment intent failed');
@@ -48,5 +56,4 @@ export class StripeService {
     }
     return true;
   }
-  //#endregion
 }
