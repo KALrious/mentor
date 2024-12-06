@@ -13,6 +13,8 @@ import { PaymentModule } from './payment/payment.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SubjectModule } from './subject/subject.module';
 import { UserModule } from './user/user.module';
+import { SendgridModule } from './sendgrid/sendgrid.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { UserModule } from './user/user.module';
     AuthModule,
     CourseModule,
     StripeModule,
+    SendgridModule,
+    MailModule,
     PaymentModule,
   ],
   controllers: [AppController],
