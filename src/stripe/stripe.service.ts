@@ -48,6 +48,7 @@ export class StripeService {
           +hours,
           +userId,
           new Date(date),
+          paymentIntent.id,
         );
         break;
       case 'payment_intent.payment_failed':

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnnounceModule } from 'src/announce/announce.module';
+import { MailModule } from 'src/mail/mail.module';
 import { UserModule } from 'src/user/user.module';
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
@@ -21,6 +22,7 @@ import { CourseEntity } from './entities/course.entity';
       }),
       inject: [ConfigService],
     }),
+    MailModule,
   ],
   controllers: [CourseController],
   providers: [CourseService],
