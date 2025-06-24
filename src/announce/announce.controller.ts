@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/guards/role.decorator';
+import { RolesGuard } from 'src/guards/roles.guard';
 import { Role } from 'src/user/interface/role';
 import { AnnounceService } from './announce.service';
 import { AnnounceEntity } from './entities/announce.entity';
@@ -17,9 +18,9 @@ import { SearchQuery } from './interface/search-query';
 
 @Controller('announce')
 export class AnnounceController {
-  constructor(private announceService: AnnounceService) {}
+  constructor(private announceService: AnnounceService) { }
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Teacher)
   createAnnounce(
     @Body() body: CreateAnnounceDto,
